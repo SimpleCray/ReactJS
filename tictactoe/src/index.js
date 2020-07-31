@@ -2,19 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
   class Square extends React.Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        value:null,
-      };
-    }
     render() {
       return (
-        // onClick={function() { alert('click'); }} is equal with: onClick={() => alert('click')}
         <button className="square" 
-          onClick={()=>this.setState({value: 'X'})}
+          onClick={()=>this.props.onClick()}
         >
-          {this.state.value}
+          {this.props.value}
         </button>
       );
     }
@@ -28,9 +21,18 @@ import './index.css';
       };
     }
     renderSquare(i) {
-      return <Square value={i}/>;
+        return (
+        <Square
+            value={this.state.squares[i]}
+            onClick={() => this.handleClick(i)}
+        />
+        );
     }
-  
+    handleClick(i){
+        const squares = this.state.squares.slice();//slice array into single item
+        squares[i] = 'X';
+        this.setState({squares: squares});
+    }
     render() {
       const status = 'Next player: X';
   
