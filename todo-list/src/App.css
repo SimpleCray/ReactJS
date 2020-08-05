@@ -1,5 +1,9 @@
 .App {
-  text-align: center;
+  width: 300px;
+  margin: 50px auto;
+  border: 1px solid rgb(221, 211, 211);
+  box-shadow: 5px 10px 15px grey;
+  border-radius: 10px;
 }
 
 .App-logo {
