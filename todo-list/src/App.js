@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import TodoItem from './components/TodoItem';
 import './App.css';
-import checkall from '../src/image/checkall.svg'
+import checkall from '../src/image/checkall.svg';
+import uncheckall from '../src/image/uncheckall.png';
+
+
 class App extends Component {
   constructor(){
     super();
       this.state={
         newItem:'',
-        toogle: false,
+        toggle: false,
         todoItems:[
-        {title: 'Go to work'},
-        {title: 'Study ReactJS'},
-        {title: 'Go to school'}
+        {title: 'Go to work', isComplete: false},
+        {title: 'Study ReactJS', isComplete: false},
+        {title: 'Go to school', isComplete: false}
       ]
     }
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onCheckAllClick = this.onCheckAllClick.bind(this);
+    this.onCompletedClick = this.onCompletedClick.bind(this);
+    this.onIncompletedClick = this.onIncompletedClick.bind(this);
+    this.onClearAllClick = this.onClearAllClick.bind(this);
   }
   onItemClick(item){
     return(event) =>{
@@ -42,18 +50,54 @@ class App extends Component {
     // const {todoItems} =  this.state;
     // console.log('before');
     // console.log(todoItems);
-    const todoItems = [...this.state.todoItems]
-    let toogle = !this.state.toogle
+    const {todoItems} = this.state;
+    let toggle = !this.state.toggle
     for(let item of todoItems){
-      item.isComplete = toogle ? true : false
+      item.isComplete = toggle ? true : false//if toggle is true then item.isComplete is true or opposite
     }
     this.setState({
       //create a clone of array with isComplete is true
       todoItems,
-      toogle
+      toggle
     });
-    console.log('after');
-    console.log(this.state.todoItems);
+    //console.log('after');
+    //console.log(this.state.todoItems);
+  }
+  onCompletedClick(event){
+    const {todoItems} = this.state;
+    let arr = [];
+    for(let item of todoItems){
+      if(item.isComplete === true){
+        arr.push(item);
+      }else{
+        arr.push();
+      }
+      console.log(arr)
+    }
+    this.setState({
+      todoItems: arr
+    });
+  }
+  onIncompletedClick(event){
+    const {todoItems} = this.state;
+    let arr = [];
+    for(let item of todoItems){
+      if(item.isComplete === false){
+        arr.push(item);
+      }else{
+        arr.push();
+      }
+      console.log(arr)
+    }
+    this.setState({
+      todoItems: arr
+    });
+  }
+  onClearAllClick(event){
+    let arr = [];
+    this.setState({
+      todoItems: arr
+    });
   }
   onKeyUp(event){
     //console.log(event.keyCode);
@@ -79,32 +123,46 @@ class App extends Component {
     })
   }
   render(){
-    if (this.state.todoItems.length>0){
-      return (
-        <div className="App">
-          <div className="Header">
-            <img className='checkall' src={checkall} onClick={this.onCheckAllClick}/>
-            <input 
-              type="text" 
-              placeholder="Add new item"
-              value= {this.state.newItem}
-              onChange={this.onChange}
-              onKeyUp={this.onKeyUp}/>
-          </div>
-          {
-            this.state.todoItems.map((item, index)=> //Each child in a list should have a unique "key" prop
-            <TodoItem key={index} 
-            item={item} 
-            onClick={this.onItemClick(item)}/>)
-          }
-        </div>
-      );
-    }else{
-      return(
-        <div className="App">Nothing to do</div>
-      );
+    const {todoItems} = this.state;
+    let url = uncheckall;
+    let count = 0;
+    for (let item of todoItems){
+      count = item.isComplete ? count+1 : count;
+      url = count==3 ? checkall : uncheckall;
     }
+    return (
+      <div className="App">
+        <div className="Header">
+          <img className='checkall' src={url} onClick={this.onCheckAllClick}/>
+          <input 
+            type="text" 
+            placeholder="Add new item"
+            value= {this.state.newItem}
+            onChange={this.onChange}
+            onKeyUp={this.onKeyUp}/>
+        </div>
+        {
+          this.state.todoItems.map((item, index)=> //Each child in a list should have a unique "key" prop
+          <TodoItem key={index} 
+          item={item} 
+          onClick={this.onItemClick(item)}/>)
+        }
+        <div className="Footer">
+          <button onClick={this.onCompletedClick}>Completed</button>
+          <button onClick={this.onIncompletedClick}>Incompleted</button>
+          <button onClick={this.onClearAllClick}>ClearAll</button>
+        </div>
+      </div>
+    );
   }
+}
+
+TodoItem.propTypes={
+  item: PropTypes.shape({
+    isComplete: PropTypes.bool,
+    title: PropTypes.string
+  }),
+  onClick: PropTypes.func
 }
 
 export default App;
