@@ -61,7 +61,7 @@ class App extends Component {
       <div className="App">
         <br/>
         <button onClick={()=> this.removeCounter()}>Remove counter</button>
-        {this.state.showCounter && <Counter/>/*Conditional rendering*/}
+        {this.state.showCounter && <Counter/>/*Conditional rendering, Counter only show if showCounter is true*/}
       </div>
     );
   }

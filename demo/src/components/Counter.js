@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Counter extends Component{
     constructor(props){
-        console.log('Counter constructor');
         super(props);
         this.state = {
             count: 0
@@ -40,7 +39,7 @@ class Counter extends Component{
         console.log('Counter did update');
     }
     componentWillUnmount(){
-        console.log('Counter will mount');
+        console.log('Counter will unmount');
     }
     shouldComponentUpdate(nextProps, nextState){
         if(this.state.count===nextState.count){
