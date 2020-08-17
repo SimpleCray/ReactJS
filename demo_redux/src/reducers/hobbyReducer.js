@@ -1,7 +1,9 @@
+//declare all state
 const initialState ={
     list: [],
     activeId: null,
 }
+// hobbyReducer const is a function that set new state base on action
 const hobbyReducer=(state = initialState, action) =>{
     switch (action.type){
         case 'ADD_HOBBY':{
@@ -15,8 +17,11 @@ const hobbyReducer=(state = initialState, action) =>{
         }
 
         case 'SET_ACTIVE_HOBBY':{
-
-            return state;
+            const newActiveId = action.payload.id;
+            return {
+                ...state,
+                activeId: newActiveId,
+            };
         }
 
         default:

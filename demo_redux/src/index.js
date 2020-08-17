@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import store from './store';
 
 ReactDOM.render(
+  //Provider must be imported at top level to use redux on all components
   <Provider store={store}>
     <App/>
   </Provider>,

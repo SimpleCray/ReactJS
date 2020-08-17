@@ -1,0 +1,4 @@
+.active{
+    transition: all .3s ease-in-out 0s;
+    color: rgb(255, 5, 5);
+}
