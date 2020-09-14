@@ -28,7 +28,7 @@ function HomePage(props){
         }
 
 
-        //Dispatch action to add a new hobby to redux store
+        //Dispatch action to add a new state to redux store
         const action = addNewHobby(newHobby);
         dispatch(action);
     }
