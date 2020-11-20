@@ -12,7 +12,7 @@ const randomNumber = () => {
 }
 
 function HomePage(props){
-    //useSelector is the replacement for mapStateToProps to use state in redux store (can use in functions only)
+    //useSelector is the replacement for mapStateToProps to use state in redux store (can use in function only)
     const hobbyList = useSelector(state => state.hobby.list);//get from root reducer
     const activeId = useSelector(state => state.hobby.activeId);//get from root reducer
 
