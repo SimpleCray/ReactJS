@@ -34,4 +34,5 @@ const fetchUserReducer = (state = initialState, action) => {
         return state
   }
 }
+
 export default fetchUserReducer;

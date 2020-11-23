@@ -45,9 +45,9 @@ const DataField = ({
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  error: state.error,
-  loading: state.loading
+  user: state.fetchUser.user,
+  error: state.fetchUser.error,
+  loading: state.fetchUser.loading
 });
 
 export default connect(mapStateToProps, null)(UserInformation)

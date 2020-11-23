@@ -6,8 +6,8 @@ import {
 
 import fetchUserService from '../services/fetchUserService'
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export const fetchUserAction = username => {
+
+export const fetchUserAction = (username) => {
   return dispatch => {
     dispatch(fetchUser())
     fetchUserService(username)
@@ -15,6 +15,15 @@ export const fetchUserAction = username => {
       .catch(error => dispatch(fetchUserFailed(error)))
   }
 }
+
+// export default username => {
+//   return dispatch  => {
+//     dispatch(fetchUser());
+//     fetchUserService(username)
+//       .then(user => dispatch(fetchUserSuccess(user)))
+//       .catch(error => dispatch(fetchUserFailed(error)))
+//   }
+// }
 
 const fetchUser = () => ({
   type: FETCH_USER
