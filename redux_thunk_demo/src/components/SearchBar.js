@@ -10,18 +10,19 @@ class SearchBar extends React.Component {
     this.state = {
       username: ''
     }
-    this._onChange = this._onChange.bind(this);
-    this._onSubmit = this._onSubmit.bind(this);
+    // Can use arrow function instead of bind
+    // this._onChange = this._onChange.bind(this);
+    // this._onSubmit = this._onSubmit.bind(this);
   }
 
-  _onChange(event) {
+  _onChange = (event) => {
     const value = event.target.value;
     this.setState({
       username: value
     })
   }
 
-  _onSubmit(event) {
+  _onSubmit = (event) => {
     event.preventDefault();
     this.props.fetchUserAction(this.state.username)
   }
