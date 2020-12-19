@@ -10,31 +10,26 @@ import uncheckall from '../src/image/uncheckall.png';
 class App extends Component {
   constructor(){
     super();
-      this.state={
-        newItem:'',
-        toggle: false,
-        todoItems:[
-        {title: 'Go to work', isComplete: false},
-        {title: 'Study ReactJS', isComplete: false},
-        {title: 'Go to school', isComplete: false}
-      ]
+    this.state={
+      newItem:'',
+      toggle: false,
+      allItems:[],
+      todoItems: []
     }
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onCheckAllClick = this.onCheckAllClick.bind(this);
+    this.onShowAllClick = this.onShowAllClick.bind(this);
     this.onCompletedClick = this.onCompletedClick.bind(this);
     this.onIncompletedClick = this.onIncompletedClick.bind(this);
     this.onClearAllClick = this.onClearAllClick.bind(this);
   }
   onItemClick(item){
     return(event) =>{
-      //console.log(item);
       const isComplete = item.isComplete;
       const {todoItems} =  this.state;
       const index = todoItems.indexOf(item);
-      this.setState({
-        //create a clone of array
-        todoItems:[
+      const currentItems = [
           ...todoItems.slice(0,index),//item behind clicked item
           {//clicked item
             ...item,
@@ -42,14 +37,15 @@ class App extends Component {
           },
           ...todoItems.slice(index +1)//item after clicked item
         ]
+      this.setState({
+        //create a clone of array
+        
+        todoItems:currentItems,
+        allItems:currentItems,
       });
-      //console.log(todoItems);
     };
   }
   onCheckAllClick(event){
-    // const {todoItems} =  this.state;
-    // console.log('before');
-    // console.log(todoItems);
     const {todoItems} = this.state;
     let toggle = !this.state.toggle
     for(let item of todoItems){
@@ -60,8 +56,12 @@ class App extends Component {
       todoItems,
       toggle
     });
-    //console.log('after');
-    //console.log(this.state.todoItems);
+  }
+  onShowAllClick(event){
+    this.setState({
+      ...this.state,
+      todoItems: this.state.allItems
+    });
   }
   onCompletedClick(event){
     const {todoItems} = this.state;
@@ -96,12 +96,11 @@ class App extends Component {
   onClearAllClick(event){
     let arr = [];
     this.setState({
+      allItems: arr,
       todoItems: arr
     });
   }
   onKeyUp(event){
-    //console.log(event.keyCode);
-    //console.log(event.target.value);
     let text = event.target.value;
     if (event.keyCode === 13){//13 is a keycode of enter key
       if (!text||!(text.trim())){
@@ -109,6 +108,10 @@ class App extends Component {
         return;
       }
       this.setState({
+        allItems:[
+          ...this.state.todoItems,
+          {title: text, isComplete: false}
+        ],
         todoItems:[
         ...this.state.todoItems,
         {title: text, isComplete: false}
@@ -148,6 +151,7 @@ class App extends Component {
           onClick={this.onItemClick(item)}/>)
         }
         <div className="Footer">
+          <button onClick={this.onShowAllClick}>ShowAll</button>
           <button onClick={this.onCompletedClick}>Completed</button>
           <button onClick={this.onIncompletedClick}>Incompleted</button>
           <button onClick={this.onClearAllClick}>ClearAll</button>
