@@ -16,15 +16,6 @@ export const fetchUserAction = (username) => {
   }
 }
 
-// export default username => {
-//   return dispatch  => {
-//     dispatch(fetchUser());
-//     fetchUserService(username)
-//       .then(user => dispatch(fetchUserSuccess(user)))
-//       .catch(error => dispatch(fetchUserFailed(error)))
-//   }
-// }
-
 const fetchUser = () => ({
   type: FETCH_USER
 });

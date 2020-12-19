@@ -64,9 +64,9 @@ class App extends Component {
     });
   }
   onCompletedClick(event){
-    const {todoItems} = this.state;
+    const {allItems} = this.state;
     let arr = [];
-    for(let item of todoItems){
+    for(let item of allItems){
       if(item.isComplete === true){
         arr.push(item);
       }else{
@@ -79,9 +79,9 @@ class App extends Component {
     });
   }
   onIncompletedClick(event){
-    const {todoItems} = this.state;
+    const {allItems} = this.state;
     let arr = [];
-    for(let item of todoItems){
+    for(let item of allItems){
       if(item.isComplete === false){
         arr.push(item);
       }else{

@@ -17,10 +17,6 @@ const UserInformation = (props) => {
             value={user.id}
           />
           <DataField
-            label="Github name"
-            value={user.name}
-          />
-          <DataField
             label="Github URL"
             value={user.html_url}
             isURL
