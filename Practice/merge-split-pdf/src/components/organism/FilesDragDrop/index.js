@@ -6,6 +6,8 @@ import Files from 'react-files';
 import ModalLoadingAlert from '../ModalLoadingAlert';
 import PDFProvider from '../../../lib/provider/pdfProvider';
 import { saveSync } from 'save-file'
+import { PDFDocument } from 'pdf-lib';
+import LoadPDF from '../../pdfView/LoadPdf';
 
 class FilesDragDrop extends Component {
 	state = {
@@ -16,7 +18,8 @@ class FilesDragDrop extends Component {
 		modalMsg: {
 			err: null,
 			success: null
-		}
+		},
+		mergedFile: null,
 	}
 
 	onFilesChange = (files) => {
@@ -25,11 +28,7 @@ class FilesDragDrop extends Component {
 			hasFiles: files.length > 0 ? true : false
 		}, () => {
 			// console.log(this.state)
-		})
-
-		// this.setState({value: event.target.value}, function () {
-		//     console.log(this.state.value);
-		// });
+		});
 	}
 
 	onFilesError = (error, file) => {
@@ -62,6 +61,10 @@ class FilesDragDrop extends Component {
 		})
 	}
 
+	showSinglePages = () => {
+
+	}
+
 	startMerge = () => {
 		let tempMsg
 		this.setState({
@@ -79,6 +82,10 @@ class FilesDragDrop extends Component {
 				// console.log(res)
 				if (res && res.hasOwnProperty("pdfFile")) {
 					if (res.pdfFile) {
+						this.setState({
+							...this.state,
+							mergedFile: res.pdfFile,
+						})
 						if (res.pdfNotMergedList.length !== this.state.files.length) {
 							const fileName = "output_merge_" + new Date().toISOString().replace(":", "_").replace("T", "_").replace("Z", "") + ".pdf"
 							saveSync(res.pdfFile, fileName)
@@ -137,77 +144,85 @@ class FilesDragDrop extends Component {
 		const { classes } = this.props;
 
 		return (
-			<div className="files">
-				<Grid container spacing={32} justify="center">
-					<Grid item className={classes.dropFilesGridZone}>
-						<Files
-							ref='files'
-							className={classes.dropFilesZone}
-							onChange={this.onFilesChange}
-							onError={this.onFilesError}
-							accepts={['.pdf']}
-							multiple
-							maxFiles={1000}
-							maxFileSize={10000000}
-							minFileSize={0}
-							clickable
-						>
-							<div className={classes.dropFilesZoneDiv}>Drop files here or click to upload</div>
-						</Files>
-					</Grid>
-				</Grid>
+			<div>
+				{
+					this.state.files[0] &&
+					<LoadPDF pdfFile={this.state.files[0]}></LoadPDF>
+				}
 
-				<Grid container spacing={32} justify="center">
-					{
-						this.state.files.length > 0
-							?
-							<Grid item className={classes.dropFilesGridZone}>
-								<div className='files-list'>
-									<ul>{this.state.files.map((file) =>
-										<li className='files-list-item' key={file.id}>
-											<div className='files-list-item-content'>
-												<div className='files-list-item-content-item files-list-item-content-item-1'>{file.name}</div>
-												<div className='files-list-item-content-item files-list-item-content-item-2'>{file.sizeReadable}</div>
+				<div className="files">
+					<Grid container spacing={32} justify="center">
+						<Grid item className={classes.dropFilesGridZone}>
+							<Files
+								ref='files'
+								className={classes.dropFilesZone}
+								onChange={this.onFilesChange}
+								onError={this.onFilesError}
+								accepts={['.pdf']}
+								multiple
+								maxFiles={1000}
+								maxFileSize={10000000}
+								minFileSize={0}
+								clickable
+							>
+								<div className={classes.dropFilesZoneDiv}>Drop files here or click to upload</div>
+							</Files>
+						</Grid>
+					</Grid>
+
+					<Grid container spacing={32} justify="center">
+						{
+							this.state.files.length > 0
+								?
+								<Grid item className={classes.dropFilesGridZone}>
+									<div className='files-list'>
+										<ul>{this.state.files.map((file) =>
+											<li className='files-list-item' key={file.id}>
+												<div className='files-list-item-content'>
+													<div className='files-list-item-content-item files-list-item-content-item-1'>{file.name}</div>
+													<div className='files-list-item-content-item files-list-item-content-item-2'>{file.sizeReadable}</div>
+												</div>
+												<div
+													id={file.id}
+													className='files-list-item-remove'
+													onClick={this.filesRemoveOne.bind(this, file)} // eslint-disable-line
+												/>
+											</li>
+										)}</ul>
+									</div>
+								</Grid>
+								:
+								<Grid item className={classes.dropFilesWarningGridZone}>
+									<div className='files-list'>
+										No files selected!
 											</div>
-											<div
-												id={file.id}
-												className='files-list-item-remove'
-												onClick={this.filesRemoveOne.bind(this, file)} // eslint-disable-line
-											/>
-										</li>
-									)}</ul>
-								</div>
-							</Grid>
-							:
-							<Grid item className={classes.dropFilesWarningGridZone}>
-								<div className='files-list'>
-									No files selected!
-											</div>
-							</Grid>
-					}
-				</Grid>
-
-				<Grid container spacing={16} justify="center">
-					<Grid item>
-						<Button variant="contained" color="primary"
-							disabled={!this.state.hasFiles}
-							onClick={this.startMerge}>
-							Start merge
-						</Button>
+								</Grid>
+						}
 					</Grid>
-					<Grid item>
-						<Button variant="outlined" color="secondary" onClick={this.filesClearAndRemoveAll}>
-							Clear selection
-						</Button>
-					</Grid>
-				</Grid>
 
-				<ModalLoadingAlert
-					isOpen={this.state.modalOpen}
-					isLoading={this.state.modalLoading}
-					msg={this.state.modalMsg}
-					clearModalStatus={this.filesClearAndRemoveAll} />
+					<Grid container spacing={16} justify="center">
+						<Grid item>
+							<Button variant="contained" color="primary"
+								disabled={!this.state.hasFiles}
+								onClick={this.startMerge}>
+								Start merge
+						</Button>
+						</Grid>
+						<Grid item>
+							<Button variant="outlined" color="secondary" onClick={this.filesClearAndRemoveAll}>
+								Clear selection
+						</Button>
+						</Grid>
+					</Grid>
+
+					<ModalLoadingAlert
+						isOpen={this.state.modalOpen}
+						isLoading={this.state.modalLoading}
+						msg={this.state.modalMsg}
+						clearModalStatus={this.filesClearAndRemoveAll} />
+				</div>
 			</div>
+
 		);
 	}
 }
