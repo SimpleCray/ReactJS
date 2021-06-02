@@ -16,20 +16,18 @@ const LoadPDF = (props) => {
     }, []);
 
     const modifyPdf = async () => {
-        const existingPdfBytes = await fetch(
-            "https://pdf-lib.js.org/assets/with_update_sections.pdf"
-        ).then((res) => res.arrayBuffer());
-
         const pdfFileBuffer = await fetch(URL.createObjectURL(pdfFile)).then(res => res.arrayBuffer());
         const pdfDoc = await PDFDocument.load(pdfFileBuffer);
-        splitDocToPages(pdfDoc);
+        splitDocToPages(pdfFile);
         const pdfBytes = await pdfDoc.save();
         const docUrl = createPdfUrl(pdfBytes);
         setPdfInfo(docUrl);
     };
 
-    const splitDocToPages = async (pdfDoc) => {
+    const splitDocToPages = async (pdfFile) => {
         let pagesUrl = [];
+        const pdfFileBuffer = await fetch(URL.createObjectURL(pdfFile)).then(res => res.arrayBuffer());
+        const pdfDoc = await PDFDocument.load(pdfFileBuffer);
         const numberOfPages = pdfDoc.getPages().length;
 
         for (let i = 0; i < numberOfPages; i++) {
@@ -39,6 +37,9 @@ const LoadPDF = (props) => {
             const [copiedPage] = await subDocument.copyPages(pdfDoc, [i])
             subDocument.addPage(copiedPage);
             const pdfBytes = await subDocument.save();
+            const pdfFromBytes = await PDFDocument.load(pdfBytes);
+            console.log('pdfFromBytes')
+            console.log(pdfFromBytes)
             const docUrl = createPdfUrl(pdfBytes);
             pagesUrl.push(docUrl);
         }
@@ -56,7 +57,7 @@ const LoadPDF = (props) => {
     return (
         <>
             {pdfDocumentPages.map(itemURL => (
-                < iframe title="test-frame" src={itemURL} type="application/pdf" />
+                < iframe style={{ scrolling: "no" }} title="test-frame" src={itemURL} type="application/pdf" />
 
             ))}
             {/* {<iframe title="test-frame" src={pdfInfo} type="application/pdf" />} */}
