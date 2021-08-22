@@ -58,6 +58,7 @@ function AnalyticsDashboardApp()
                             <div className="widget w-full sm:w-1/3 p-16">
                                 <Widget4 data={widgets.widget4}/>
                             </div>
+
                         </div>
 
                         <FuseAnimate delay={600}>

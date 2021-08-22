@@ -182,6 +182,9 @@ function ProjectDashboardApp(props)
                             <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
                                 <Widget4 widget={widgets.widget4}/>
                             </div>
+                            <div className="widget flex w-full sm:w-1/2 md:w-1/4 p-12">
+                                <Widget4 widget={widgets.widget4} />
+                            </div>
                             <div className="widget flex w-full p-12">
                                 <Widget5 widget={widgets.widget5}/>
                             </div>
