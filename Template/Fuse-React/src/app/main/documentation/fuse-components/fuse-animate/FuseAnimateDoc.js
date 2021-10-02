@@ -112,13 +112,13 @@ function FuseAnimateDoc()
                                     duration={400}
                                     delay={400}
                                 >
-                                     <Card className={classes.box}>
+                                    <Card className={classes.box}>
                                         <Typography>
                                         {selectedEffect}
                                         </Typography>
                                     </Card>
                                 </FuseAnimate>
-                             `}
+                            `}
                     </FuseHighlight>
 
                     <div className="flex flex-wrap p-48">
