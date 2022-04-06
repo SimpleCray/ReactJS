@@ -8,33 +8,37 @@
 class Song {
     name;
     nextSong;
-    
+
     constructor(name) {
-      this.name = name;
+        this.name = name;
     }
-    
+
     /**
      * @return {boolean} true if the playlist is repeating, false if not.
      */
     isRepeatingPlaylist() {
-      var current = this.nextSong;
-      var next = current == null ? null : current.nextSong;
-      while (next != null) {
-        if (current == this || current == next) return true;
-        current = current.nextSong;
-        next = next.nextSong;
-        if (next != null) next = next.nextSong;
-      }
-      return false;
+        var current = this.nextSong;
+        var next = current == null ? null : current.nextSong;
+        while (next != null) {
+            if (current == this || current == next) return true;
+            current = current.nextSong;
+            next = next.nextSong;
+            if (next != null) next = next.nextSong;
+        }
+        return false;
     }
-  }
-  
-  let first = new Song("Hello");
-  let second = new Song("Eye of the tiger");
-  let last = new Song("No Promises");
-  
-  first.nextSong = second;
-  second.nextSong = last;
-  last.nextSong = first;
-  
-  console.log(first.isRepeatingPlaylist());
+}
+
+let first = new Song('Hello');
+let second = new Song('Eye of the tiger');
+let three = new Song('No Promises 1');
+let four = new Song('No Promises 2');
+let five = new Song('No Promises 3');
+
+first.nextSong = second;
+second.nextSong = three;
+three.nextSong = four;
+four.nextSong = five;
+four.nextSong = first;
+
+console.log(first.isRepeatingPlaylist());
