@@ -1,0 +1,18 @@
+.toaster-container {
+  min-width: 320px;
+  width: auto;
+}
+
+.toaster-container > div {
+  padding: 0;
+  border-radius: 8px;
+}
+
+.toaster-container > div > div {
+  padding: 0;
+  margin: 0;
+}
+
+.Toastify__toast-body > div {
+  height: 100%;
+}
