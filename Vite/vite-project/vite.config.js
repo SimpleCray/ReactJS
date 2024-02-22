@@ -5,6 +5,7 @@
 // export default defineConfig({
 //   plugins: [react()],
 // })
+
 import path from 'path';
 import { defineConfig, loadEnv, transformWithEsbuild } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -53,5 +54,10 @@ return defineConfig({
       },
     },
   },
+  server: {
+    watch: {
+      usePolling: true
+    }
+  }
 });
 }

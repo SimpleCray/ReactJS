@@ -19,7 +19,7 @@ const Details = ({
         <Stack gap={3} direction='row' alignItems='center'>
           <Box display='flex' alignItems='center' justifyContent='space-between' width={110}>
             <Typography variant='body1' fontWeight={600} component='span'>
-              Active
+              Active 2
             </Typography>
             <StyledSwitch checked={active} onChange={() => handleToggleActive(active ? 2 : 1)} />
           </Box>

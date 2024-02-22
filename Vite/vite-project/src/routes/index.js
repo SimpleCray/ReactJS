@@ -6,19 +6,19 @@ import { lazy, Suspense } from 'react';
 import SplashScreen from '../components/loading-screen';
 import SelectHelperForVideo from '../feature/auth/SelectHelper/SelectHelperForVideo';
 import { ChooseHelper } from '../feature/onboarding/components';
-
-const Page404 = lazy(() => import('../pages/404'));
+import Page404 from '../pages/404'
+// const Page404 = lazy(() => import('../pages/404'));
 
 export default function Router() {
 	return useRoutes([
 		// Website routes
-		...websiteRoutes,
+		// ...websiteRoutes,
 
 		// Auth routes
-		...authRoutes,
+		// ...authRoutes,
 
 		// Dashboard routes
-		...dashboardRoutes,
+		// ...dashboardRoutes,
 		{
 			path: '404',
 			element: (

@@ -1,8 +1,9 @@
 import { lazy, Suspense } from 'react';
 
 import SplashScreen from '../components/loading-screen';
+import HomePage from '../pages/home';
 
-const HomePage = lazy(() => import('../pages/home'));
+// const HomePage = lazy(() => import('../pages/home'));
 const FeaturesPage = lazy(() => import('../pages/features'));
 const ProductPage = lazy(() => import('../pages/product'));
 const PricingPage = lazy(() => import('../pages/pricing'));
